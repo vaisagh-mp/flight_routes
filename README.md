@@ -107,7 +107,7 @@ The **Flight Routes Management System** allows users to:
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone <repository-url>
+git clone https://github.com/vaisagh-mp/flight_routes.git
 cd flight_routes
 
 python manage.py makemigrations
