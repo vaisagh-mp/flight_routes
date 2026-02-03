@@ -1,0 +1,234 @@
+{% extends 'routes/base.html' %}
+
+{% block content %}
+
+<h3 class="mb-4">Airport Dashboard</h3>
+
+<!-- Quick Actions -->
+<div class="row mb-4">
+  <div class="col-md-4">
+    <a href="{% url 'add_airport' %}" class="btn btn-outline-primary w-100">➕ Add Airport</a>
+  </div>
+  <div class="col-md-4">
+    <a href="{% url 'add_route' %}" class="btn btn-outline-success w-100">➕ Add Route</a>
+  </div>
+  <div class="col-md-4">
+    <a href="{% url 'search' %}" class="btn btn-outline-info w-100">🔍 Search Route</a>
+  </div>
+</div>
+
+<!-- Latest Airports -->
+<h5>Latest Airports</h5>
+<div class="row">
+  {% for airport in latest_airports %}
+    <div class="col-md-3 mb-3">
+      <div class="card shadow-sm">
+        <div class="card-body text-center">
+          <strong>{{ airport.name }}</strong>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p>No airports added yet.</p>
+  {% endfor %}
+</div>
+
+<hr>
+
+<!-- Paginated Airport List -->
+<h5>All Airports</h5>
+
+<table class="table table-striped bg-white align-middle">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Created</th>
+      <th class="text-end">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  {% for airport in page_obj %}
+<tr>
+  <td><strong>{{ airport.name }}</strong></td>
+  <td>{{ airport.created_at|date:"d M Y" }}</td>
+  <td class="text-end">
+    <a href="{% url 'edit_airport' airport.id %}" class="btn btn-sm btn-outline-primary">
+      ✏️
+    </a>
+
+    <button
+      class="btn btn-sm btn-outline-danger"
+      data-bs-toggle="modal"
+      data-bs-target="#deleteModal{{ airport.id }}">
+      🗑️
+    </button>
+  </td>
+</tr>
+
+<!-- MODAL -->
+<div class="modal fade" id="deleteModal{{ airport.id }}" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger">Delete Airport</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center">
+        Are you sure you want to delete
+        <strong>{{ airport.name }}</strong>?
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-light" data-bs-dismiss="modal">No</button>
+        <form method="post" action="{% url 'delete_airport' airport.id %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+  </tbody>
+</table>
+
+
+<!-- Pagination -->
+<nav>
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      </li>
+    {% endif %}
+
+    <li class="page-item active">
+      <span class="page-link" style="color: #fff;">{{ page_obj.number }}</span>
+    </li>
+
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+
+
+<hr class="my-5">
+
+<h5>All Routes</h5>
+<table class="table table-striped bg-white align-middle">
+  <thead>
+    <tr>
+      <th>Parent Airport</th>
+      <th>Direction</th>
+      <th>Child Airport</th>
+      <th>Duration (mins)</th>
+      <th class="text-end">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  {% for route in route_page_obj %}
+    <tr>
+      <td><strong>{{ route.parent.name }}</strong></td>
+
+      <td>
+        {% if route.position == 'LEFT' %}
+          ⬅️ LEFT
+        {% else %}
+          ➡️ RIGHT
+        {% endif %}
+      </td>
+
+      <td><strong>{{ route.child.name }}</strong></td>
+      <td>{{ route.duration }}</td>
+
+      <td class="text-end">
+        <a href="{% url 'edit_route' route.id %}"
+           class="btn btn-sm btn-outline-primary">
+          ✏️
+        </a>
+
+        <button
+          class="btn btn-sm btn-outline-danger"
+          data-bs-toggle="modal"
+          data-bs-target="#deleteRouteModal{{ route.id }}">
+          🗑️
+        </button>
+      </td>
+    </tr>
+
+    <!-- DELETE ROUTE MODAL -->
+    <div class="modal fade" id="deleteRouteModal{{ route.id }}" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h5 class="modal-title text-danger">Delete Route</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body text-center">
+            Delete route from
+            <strong>{{ route.parent.name }}</strong>
+            to
+            <strong>{{ route.child.name }}</strong>?
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-light" data-bs-dismiss="modal">No</button>
+
+            <form method="post" action="{% url 'delete_route' route.id %}">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger">
+                Yes, Delete
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  {% empty %}
+    <tr>
+      <td colspan="5" class="text-center text-muted">
+        No routes available
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<nav>
+  <ul class="pagination">
+    {% if route_page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link"
+           href="?route_page={{ route_page_obj.previous_page_number }}">
+           Previous
+        </a>
+      </li>
+    {% endif %}
+
+    <li class="page-item active">
+      <span class="page-link" style="color:#fff;">
+        {{ route_page_obj.number }}
+      </span>
+    </li>
+
+    {% if route_page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link"
+           href="?route_page={{ route_page_obj.next_page_number }}">
+           Next
+        </a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+
+{% endblock %}

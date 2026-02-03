@@ -1,0 +1,272 @@
+:root {
+    --flight-red: #d71921;
+    --flight-dark: #1c1c1c;
+    --flight-gold: #c9a24d;
+    --soft-gray: #f5f7fa;
+}
+
+/* Global */
+body {
+    background-color: var(--soft-gray);
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #222;
+}
+
+/* Navbar */
+.navbar {
+    background: linear-gradient(
+        90deg,
+        var(--flight-red),
+        #b01218
+    );
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.navbar .nav-link {
+    color: #fff !important;
+    margin-left: 12px;
+    font-weight: 500;
+}
+
+.navbar .nav-link:hover {
+    color: var(--flight-gold) !important;
+}
+
+/* Headings */
+h3, h5 {
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+/* Buttons */
+.btn-outline-primary {
+    border-color: var(--flight-red);
+    color: var(--flight-red);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--flight-red);
+    color: #fff;
+}
+
+.btn-outline-success {
+    border-color: var(--flight-gold);
+    color: var(--flight-gold);
+}
+
+.btn-outline-success:hover {
+    background-color: var(--flight-gold);
+    color: #fff;
+}
+
+.btn-outline-info {
+    border-color: #0d6efd;
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 14px;
+    background-color: #fff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+/* Airport Cards */
+.card-body strong {
+    font-size: 1.05rem;
+    letter-spacing: 0.4px;
+}
+
+/* Tables */
+.table {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.table thead {
+    background-color: var(--flight-red);
+    color: white;
+}
+
+.table th {
+    font-weight: 600;
+}
+
+/* Pagination */
+.pagination .page-link {
+    color: var(--flight-red);
+}
+
+.pagination .active .page-link {
+    background-color: var(--flight-red);
+    border-color: var(--flight-red);
+}
+
+/* Stats Cards */
+.card.border-success {
+    border-left: 6px solid var(--flight-gold) !important;
+}
+
+.card.border-danger {
+    border-left: 6px solid var(--flight-red) !important;
+}
+
+/* Forms */
+form {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    /* box-shadow: 0 8px 24px rgba(0,0,0,0.08); */
+}
+
+select, input[type="number"] {
+    background-color: #fafafa;
+    border-radius: 5px;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+}
+
+/* Toggle button */
+.sidebar-toggle {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: white;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+/* Hover / focus */
+.sidebar-toggle:hover {
+    background-color: rgba(215, 25, 33, 0.25);
+}
+
+.sidebar-toggle:focus {
+    outline: none;
+}
+
+/* Collapsed sidebar – keep perfect centering */
+.sidebar.collapsed .sidebar-header {
+    padding: 12px;
+}
+
+.sidebar.collapsed .sidebar-toggle {
+    width: 44px;
+    height: 44px;
+}
+
+/* Sidebar base */
+.sidebar {
+    background: linear-gradient(180deg, #121212, #1c1c1c);
+    color: white;
+    min-height: 100vh;
+    width: 240px;
+    transition: width 0.3s ease;
+}
+
+/* Expanded / Collapsed */
+.sidebar.collapsed {
+    width: 100px;
+}
+
+.sidebar.expanded {
+    width: 240px;
+}
+
+/* Nav links */
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    color: #e0e0e0;
+    font-weight: 500;
+    border-radius: 12px;
+    margin: 6px 10px;
+    transition: background 0.2s ease;
+}
+
+.sidebar-link:hover {
+    background-color: rgba(215, 25, 33, 0.15);
+    color: #fff;
+}
+
+/* Icons */
+.sidebar-link .icon {
+    font-size: 1.3rem;
+    min-width: 30px;
+    text-align: center;
+}
+
+/* Text hide on collapse */
+.sidebar.collapsed .text {
+    display: none;
+}
+
+/* Highlight (Stats) */
+.sidebar-link.highlight {
+    color: #d71921;
+    font-weight: 600;
+}
+
+/* Content area */
+.content-area {
+    background-color: #f5f7fa;
+    min-height: 100vh;
+    padding: 30px;
+    width: calc(100% - 240px);
+    transition: width 0.3s ease;
+}
+
+.content-area.expanded {
+    width: calc(95% - 70px);
+}
+
+/* Mobile behavior */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        left: -240px;
+        z-index: 1050;
+    }
+
+    .sidebar.expanded {
+        left: 0;
+    }
+
+    .content-area,
+    .content-area.expanded {
+        width: 100%;
+    }
+}
+
+
+/* Footer spacing */
+.container {
+    padding-bottom: 40px;
+}

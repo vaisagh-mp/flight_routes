@@ -1,0 +1,91 @@
+{% extends 'routes/base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <h3 class="mb-2">Add Airport Route</h3>
+                <p class="text-muted mb-4">
+                    Define a directional connection between two airports
+                </p>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <!-- NON-FIELD ERRORS -->
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ form.non_field_errors }}
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Parent Airport -->
+                    <div class="mb-3">
+                        {{ form.parent.label_tag }}
+                        {{ form.parent }}
+                        {% if form.parent.errors %}
+                            <div class="text-danger small">
+                                {{ form.parent.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Child Airport -->
+                    <div class="mb-3">
+                        {{ form.child.label_tag }}
+                        {{ form.child }}
+                        {% if form.child.errors %}
+                            <div class="text-danger small">
+                                {{ form.child.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Position -->
+                    <div class="mb-3">
+                        {{ form.position.label_tag }}
+                        {{ form.position }}
+                        {% if form.position.errors %}
+                            <div class="text-danger small">
+                                {{ form.position.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Duration -->
+                    <div class="mb-4">
+                        {{ form.duration.label_tag }}
+                        {{ form.duration }}
+                        <small class="text-muted">
+                            Time required to reach the destination (minutes)
+                        </small>
+                        {% if form.duration.errors %}
+                            <div class="text-danger small">
+                                {{ form.duration.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="d-flex justify-content-end">
+                        <a href="{% url 'home' %}" class="btn btn-light me-2">
+                            Cancel
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            ➕ Save Route
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

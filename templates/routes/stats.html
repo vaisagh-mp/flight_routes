@@ -1,0 +1,33 @@
+{% extends 'routes/base.html' %}
+
+{% block content %}
+<h3>Route Statistics</h3>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="card border-success">
+      <div class="card-body">
+        <h5>Longest Duration</h5>
+        {% if longest %}
+          {{ longest.child }} – {{ longest.duration }} mins
+        {% else %}
+          No data
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card border-danger">
+      <div class="card-body">
+        <h5>Shortest Duration</h5>
+        {% if shortest %}
+          {{ shortest.child }} – {{ shortest.duration }} mins
+        {% else %}
+          No data
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
